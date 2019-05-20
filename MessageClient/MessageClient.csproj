@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A888F2BC-5876-42B7-BE3B-5A9F45A1DB1B}</ProjectGuid>
+    <ProjectGuid>{13D2C540-3A4B-4FCD-A33C-7CE85CDCAFB0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MultithreadedMessenger</RootNamespace>
-    <AssemblyName>MultithreadedMessenger</AssemblyName>
+    <RootNamespace>MessageClient</RootNamespace>
+    <AssemblyName>MessageClient</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

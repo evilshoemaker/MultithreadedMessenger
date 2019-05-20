@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MultithreadedMessenger.Properties
+namespace MessageServer.Properties
 {
 
 
