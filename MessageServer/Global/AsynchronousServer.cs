@@ -8,6 +8,8 @@ namespace MessageServer
 {
     public class AsynchronousServer
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private IPAddress ipAddress;
         private int port;
 
@@ -45,10 +47,11 @@ namespace MessageServer
                     TcpClient tcpClient = await listener.AcceptTcpClientAsync();
                     //Task t = Process(tcpClient);
                     //await t;
+                    logger.Info("Server started");
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine(ex.Message);
+                    logger.Error(ex);
                 }
             }
         }
