@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageServer", "MessageSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageClient", "MessageClient\MessageClient.csproj", "{13D2C540-3A4B-4FCD-A33C-7CE85CDCAFB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageCommonLib", "MessageCommonLib\MessageCommonLib.csproj", "{326D54F6-202D-4387-BD0E-D92DE36D83BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{13D2C540-3A4B-4FCD-A33C-7CE85CDCAFB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13D2C540-3A4B-4FCD-A33C-7CE85CDCAFB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13D2C540-3A4B-4FCD-A33C-7CE85CDCAFB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{326D54F6-202D-4387-BD0E-D92DE36D83BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326D54F6-202D-4387-BD0E-D92DE36D83BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326D54F6-202D-4387-BD0E-D92DE36D83BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326D54F6-202D-4387-BD0E-D92DE36D83BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

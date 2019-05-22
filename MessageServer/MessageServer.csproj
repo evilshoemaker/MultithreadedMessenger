@@ -94,5 +94,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Global\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MessageCommonLib\MessageCommonLib.csproj">
+      <Project>{326d54f6-202d-4387-bd0e-d92de36d83ba}</Project>
+      <Name>MessageCommonLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

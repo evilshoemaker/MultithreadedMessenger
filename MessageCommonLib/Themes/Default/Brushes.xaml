@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:InstaSoft.Themes.Default">
+
+    <SolidColorBrush x:Key="WindowBackground" Color="#fafafa"/>
+    <SolidColorBrush x:Key="MainMenuBackground" Color="#446cb3"/>
+    <SolidColorBrush x:Key="MainMenuFooterBackground" Color="#3d61a1"/>
+
+    <SolidColorBrush x:Key="SecondaryWindowBackground" Color="#ffffff"/>
+
+    <SolidColorBrush x:Key="WindowsForeground" Color="#446cb3"/>
+
+    <SolidColorBrush x:Key="PrimaryButtonBackground" Color="#446cb3"/>
+    <SolidColorBrush x:Key="SecondaryButtonBackground" Color="#fff"/>
+    <SolidColorBrush x:Key="SecondaryButtonBorder" Color="#f2f2f2"/>
+
+    <SolidColorBrush x:Key="ActiveTabItemBackground" Color="#3d61a1"/>
+    <SolidColorBrush x:Key="NormalTabItemBackground" Color="#446cb3"/>
+
+    <SolidColorBrush x:Key="ActiveTabItemForeground" Color="White"/>
+    <SolidColorBrush x:Key="NormalTabItemForeground" Color="#bccee7"/>
+
+    <SolidColorBrush x:Key="ActiveSecondTabItemBackground" Color="#ececec"/>
+    <SolidColorBrush x:Key="NormalSecondTabItemBackground" Color="#f7f7f7"/>
+
+    <SolidColorBrush x:Key="NormalSecondTabItemForeground" Color="#000"/>
+
+    <SolidColorBrush x:Key="ActiveFooterButtonBackground" Color="#375589"/>
+
+    <SolidColorBrush x:Key="ToolButtonBackground" Color="White"/>
+    <SolidColorBrush x:Key="ToolButtonBorderColor" Color="#f2f2f2"/>
+    <SolidColorBrush x:Key="ToolButtonForeground" Color="#236db7"/>
+    <SolidColorBrush x:Key="LeftIconToolButtonBorderColor" Color="#446cb3"/>
+
+    <SolidColorBrush x:Key="ComboBoxBackground" Color="White"/>
+    <SolidColorBrush x:Key="ComboBoxBorderColor" Color="#dcdcdc"/>
+    <SolidColorBrush x:Key="ComboBoxForeground" Color="#236db7"/>
+    <SolidColorBrush x:Key="ComboBoxSelectItemBackground" Color="#e7f1ff"/>
+
+    <SolidColorBrush x:Key="DataGridHeaderBackground" Color="White"/>
+    <SolidColorBrush x:Key="DataGridHeaderBorder" Color="#f2f2f2"/>
+    <SolidColorBrush x:Key="DataGridHeaderForeground" Color="#b3b3b3"/>
+
+    <SolidColorBrush x:Key="DataGridBackground" Color="White"/>
+    <SolidColorBrush x:Key="DataGridAlternatingRowBackground" Color="#f2f4f3"/>
+    <SolidColorBrush x:Key="DataGridVerticalGridLines" Color="#f2f2f2"/>
+
+    <SolidColorBrush x:Key="DataGridSelectBackground" Color="#e7f1ff"/>
+    <SolidColorBrush x:Key="DataGridForeground" Color="#2c2e35"/>
+
+    <SolidColorBrush x:Key="ProgressBarForeground" Color="#2c2e35"/>
+    <SolidColorBrush x:Key="ProgressBarIndicatorColor" Color="#e3eaed"/>
+
+    <SolidColorBrush x:Key="CheckBoxCheckedBackground" Color="#446cb3"/>
+    <SolidColorBrush x:Key="CheckBoxUncheckedBackground" Color="#d7d7d7"/>
+
+    <SolidColorBrush x:Key="TextBoxBackground" Color="#ffffff"/>
+    <SolidColorBrush x:Key="TextBoxBorder" Color="#dcdcdc"/>
+    <SolidColorBrush x:Key="TextBoxWaterMarkForeground" Color="#dbdbdb"/>
+
+</ResourceDictionary>
