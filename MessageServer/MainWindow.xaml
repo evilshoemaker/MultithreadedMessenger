@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MessageServer"
         mc:Ignorable="d"
-        Title="Message Client" Height="450" Width="800">
+        Title="Message Server" Height="450" Width="800">
     <Grid Background="{StaticResource WindowBackground}">
         
     </Grid>
