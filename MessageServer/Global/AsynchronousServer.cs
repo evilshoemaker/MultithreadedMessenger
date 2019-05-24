@@ -3,6 +3,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading.Tasks;
+using MessageCommonLib;
+using System.Collections.Generic;
 
 namespace MessageServer
 {
@@ -30,6 +32,28 @@ namespace MessageServer
         {
             get => port;
             set => port = value;
+        }
+
+        #endregion
+
+        #region Static methods
+
+        public List<IPAddress> AvailableNetworkInterfaces()
+        {
+            string hostName = Dns.GetHostName();
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
+
+            List<IPAddress> ipAddressesList = new List<IPAddress>();
+
+            for (int i = 0; i < ipHostInfo.AddressList.Length; ++i)
+            {
+                if (ipHostInfo.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ipAddressesList.Add(ipHostInfo.AddressList[i]);
+                }
+            }
+
+            return ipAddressesList;
         }
 
         #endregion
@@ -79,13 +103,17 @@ namespace MessageServer
                         await writer.WriteLineAsync(response);*/
                     }
                     else
-                        break; // client closede connection
+                    {
+                        break;
+                    }
                 }
+
                 tcpClient.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Error(ex);
+
                 if (tcpClient.Connected)
                     tcpClient.Close();
             }
