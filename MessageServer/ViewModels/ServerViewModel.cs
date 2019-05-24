@@ -21,6 +21,8 @@ namespace MessageServer.ViewModels
             StopServerCommand = new DelegateCommand(StopServer);
 
             Server = new AsynchronousServer();
+
+            NetworkInterfaces = new ObservableCollection<IPAddress>(AsynchronousServer.AvailableNetworkInterfaces());
         }
 
         #region Commands
@@ -44,7 +46,7 @@ namespace MessageServer.ViewModels
         {
             //Server.IsRunning = true;
 
-            MessageCommonLib.WindowService.Show(typeof(ConnectSettingsWindow), this, false, b => { });
+            MessageCommonLib.WindowService.Show(typeof(ConnectSettingsWindow), this, true, b => { });
         }
 
         private void StopServer(object obj)

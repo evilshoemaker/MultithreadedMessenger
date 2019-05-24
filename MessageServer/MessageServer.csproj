@@ -65,7 +65,6 @@
     </ApplicationDefinition>
     <Compile Include="Model\DelegateCommand.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />
-    <Compile Include="WindowService.cs" />
     <Page Include="View\ConnectSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

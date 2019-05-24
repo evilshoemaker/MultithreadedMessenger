@@ -12,18 +12,41 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="56" />
             <RowDefinition />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0">
-            <StackPanel Orientation="Horizontal"
+        <Border Grid.Row="0" Background="{StaticResource WindowToolBarBackground}">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Network Interface" />
+                <ComboBox Grid.Column="0" Grid.Row="1" 
+                          ItemsSource="{Binding Path=NetworkInterfaces}" 
+                          SelectedItem="{Binding Server.IpAddress}"/>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="Port" />
+                <TextBox Grid.Column="1" Grid.Row="1" Text="65535" />
+
+                <StackPanel Grid.Column="2" Grid.RowSpan="2" Orientation="Horizontal"
                     HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Content="Start" Command="{Binding Path=StartServerCommand}" 
+                    <Button Content="Start" Command="{Binding Path=StartServerCommand}" 
                         Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Visible, True=Collapsed}}"/>
-                <Button Content="Stop" Command="{Binding Path=StopServerCommand}" 
+                    <Button Content="Stop" Command="{Binding Path=StopServerCommand}" 
                         Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Collapsed, True=Visible}}"/>
-                <TextBlock Text="Status"
+                    <TextBlock Text="Status"
                        VerticalAlignment="Center"/>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </Border>
 
         <Grid Grid.Row="1">
@@ -32,13 +55,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" MinWidth="275"/>
             </Grid.ColumnDefinitions>
-            
+
             <ListBox Grid.Column="0"/>
-            
+
             <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" 
                           HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
-            
+
         </Grid>
     </Grid>
 </Window>

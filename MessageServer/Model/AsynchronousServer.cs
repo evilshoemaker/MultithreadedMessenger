@@ -78,7 +78,7 @@ namespace MessageServer.Model
 
         #region Static methods
 
-        public List<IPAddress> AvailableNetworkInterfaces()
+        public static List<IPAddress> AvailableNetworkInterfaces()
         {
             string hostName = Dns.GetHostName();
             IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
