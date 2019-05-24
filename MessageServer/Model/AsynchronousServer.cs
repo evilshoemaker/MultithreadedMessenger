@@ -5,33 +5,73 @@ using System.IO;
 using System.Threading.Tasks;
 using MessageCommonLib;
 using System.Collections.Generic;
+using System.ComponentModel;
 
-namespace MessageServer
+namespace MessageServer.Model
 {
-    public class AsynchronousServer
+    public class AsynchronousServer : INotifyPropertyChanged
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private IPAddress ipAddress;
         private int port;
 
+        private bool isRunnig = false;
+
+        #region Constructor
+
         public AsynchronousServer()
         {
 
         }
+
+        #endregion
 
         #region Properties
 
         public IPAddress IpAddress
         {
             get => ipAddress;
-            set => ipAddress = value;
+            set
+            {
+                if (ipAddress == value)
+                    return;
+
+                ipAddress = value;
+                OnPropertyChanged("IpAddress");
+            }
         }
 
         public int Port
         {
             get => port;
-            set => port = value;
+            set
+            {
+                if (port == value)
+                    return;
+
+                port = value;
+                OnPropertyChanged("Port");
+            }
+        }
+
+        public bool IsRunning
+        {
+            get => isRunnig;
+            set
+            {
+                if (isRunnig == value)
+                    return;
+
+                isRunnig = value;
+                OnPropertyChanged("IsRunning");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion
@@ -58,6 +98,8 @@ namespace MessageServer
 
         #endregion
 
+        #region Public methods
+
         public async void Start()
         {
             TcpListener listener = new TcpListener(this.ipAddress, this.port);
@@ -80,6 +122,10 @@ namespace MessageServer
                 }
             }
         }
+
+        #endregion
+
+        #region Private methods
 
         private async Task Process(TcpClient tcpClient)
         {
@@ -146,6 +192,6 @@ namespace MessageServer
             return "";
         }
 
-
+        #endregion
     }
 }

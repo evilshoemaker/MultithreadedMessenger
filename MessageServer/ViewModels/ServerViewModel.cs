@@ -1,46 +1,57 @@
-﻿using System;
+﻿using MessageServer.Model;
+//using MessageCommonLib;
+using MessageServer.View;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net; //TODO: delete
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MessageServer.ViewModels
 {
     public class ServerViewModel
     {
+
         public ServerViewModel()
         {
-            string hostName = Dns.GetHostName();
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(hostName);
+            StartServerCommand = new DelegateCommand(StartServer);
+            StopServerCommand = new DelegateCommand(StopServer);
 
-            List<String> values = new List<String>();
-            foreach (NetworkInterface adapter in NetworkInterface.GetAllNetworkInterfaces())
-            {
-                if (adapter.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
-                    adapter.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                {
-                    foreach (UnicastIPAddressInformation ip in adapter.GetIPProperties().UnicastAddresses)
-                    {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            Console.WriteLine(ip.Address.ToString());
-                            values.Add(adapter.Description);
-                        }
-                    }
-                }
-            }
-
-            for (int i = 0; i < ipHostInfo.AddressList.Length; ++i)
-            {
-                if (ipHostInfo.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
-                {
-                    //this.ipAddress = ipHostInfo.AddressList[i];
-                    break;
-                }
-            }
+            Server = new AsynchronousServer();
         }
+
+        #region Commands
+
+        public ICommand StartServerCommand { get; private set; }
+        public ICommand StopServerCommand { get; private set; }
+
+        #endregion
+
+        #region Properties
+
+        public ObservableCollection<IPAddress> NetworkInterfaces { get; private set; }
+
+        public AsynchronousServer Server { get; private set; }
+
+        #endregion
+
+        #region Private methods
+
+        private void StartServer(object obj)
+        {
+            //Server.IsRunning = true;
+
+            MessageCommonLib.WindowService.Show(typeof(ConnectSettingsWindow), this, false, b => { });
+        }
+
+        private void StopServer(object obj)
+        {
+            Server.IsRunning = false;
+        }
+
+        #endregion
     }
 }
