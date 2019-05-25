@@ -5,93 +5,140 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MessageServer"
         xmlns:converters="clr-namespace:MessageCommonLib.Converters;assembly=MessageCommonLib"
+        xmlns:behaviours="clr-namespace:MessageCommonLib.Behaviours;assembly=MessageCommonLib"
+        xmlns:commonLib="clr-namespace:MessageCommonLib;assembly=MessageCommonLib"
         mc:Ignorable="d"
+        Background="{StaticResource WindowBackground}"
         Title="Message Server" Height="450" Width="800">
-
-    <Grid Background="{StaticResource WindowBackground}">
+    
+    <Grid Margin="9">
         <Grid.RowDefinitions>
-            <RowDefinition Height="56" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="{StaticResource WindowToolBarBackground}">
-            <Grid VerticalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal">
+            <ComboBox Grid.Column="2" Width="175" 
+                      ItemsSource="{Binding Path=NetworkInterfaces}" 
+                      SelectedItem="{Binding Path=Server.IpAddress}"
+                      Style="{StaticResource ComboBoxWithIconStyle}"
+                      commonLib:IconDependencyClass.DataForPath="{StaticResource file}"
+                      Tag="Network interface"
+                      IsEnabled="{Binding Server.IsRunning, Converter={converters:InverseBooleanConverter}}"/>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <TextBox Width="58" Margin="12 0 0 0"
+                     Tag="Port"
+                     Style="{StaticResource TextBoxStyle}"
+                     behaviours:PortOnlyBehaviour.IsEnabled="True"
+                     Text="{Binding Server.Port, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}" 
+                     IsEnabled="{Binding Server.IsRunning, Converter={converters:InverseBooleanConverter}}"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Network Interface" />
-                <ComboBox Grid.Column="0" Grid.Row="1" 
-                          ItemsSource="{Binding Path=NetworkInterfaces}" 
-                          SelectedItem="{Binding Server.IpAddress}"/>
+            <StackPanel Orientation="Horizontal" Margin="36 0 0 0"
+                        HorizontalAlignment="Left" VerticalAlignment="Center">
+                
+                <Button Content="Start" Command="{Binding Path=StartServerCommand}" 
+                        Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Visible, True=Collapsed}}"
+                        Style="{StaticResource ToolButtonWithoutTextStyle}"
+                        commonLib:IconDependencyClass.DataForPath="{StaticResource play}"/>
+                
+                <Button Content="Stop" Command="{Binding Path=StopServerCommand}" 
+                        Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Collapsed, True=Visible}}"
+                        Style="{StaticResource ToolButtonWithoutTextStyle}"
+                        commonLib:IconDependencyClass.DataForPath="{StaticResource stop}"/>
+                
+            </StackPanel>
+        </StackPanel>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="Port" />
-                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Server.Port}" Width="80" HorizontalContentAlignment="Right"/>
-
-                <StackPanel Grid.Column="2" Grid.RowSpan="2" Orientation="Horizontal"
-                    HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Button Content="Start" Command="{Binding Path=StartServerCommand}" 
-                        Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Visible, True=Collapsed}}"/>
-                    <Button Content="Stop" Command="{Binding Path=StopServerCommand}" 
-                        Visibility="{Binding Server.IsRunning, Converter={converters:BooleanToVisibilityConverter False=Collapsed, True=Visible}}"/>
-                    <TextBlock Text="Status"
-                       VerticalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0 12 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0*" MinWidth="275" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" MinWidth="275"/>
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Column="0" ItemsSource="{Binding Server.ClientList}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid SnapsToDevicePixels="True" Cursor="Hand">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" CornerRadius="5" Background="{StaticResource WindowBorderBackground}">
+                <ListBox ItemsSource="{Binding Server.ClientList}"
+                         ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                         Style="{StaticResource ListBoxStyle}"
+                         IsEnabled="{Binding TcpClient.Connected}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid SnapsToDevicePixels="True" Cursor="Hand">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <Border BorderThickness="0 0 0 1" BorderBrush="#f1f1f1" Grid.ColumnSpan="5">
-                                <Border x:Name="brd" Background="#eeeeee" CornerRadius="3 0 0 3" Visibility="Hidden">
-                                    <Rectangle Width="3" RadiusX="1.5" RadiusY="1.5" Fill="#446cb3" HorizontalAlignment="Left"/>
+                                <Border BorderThickness="0 0 0 1" BorderBrush="#f1f1f1" Grid.ColumnSpan="5">
+                                    <Border x:Name="brd" Background="#eeeeee" CornerRadius="3 0 0 3" Visibility="Hidden">
+                                        <Rectangle Width="3" RadiusX="1.5" RadiusY="1.5" Fill="#446cb3" HorizontalAlignment="Left"/>
+                                    </Border>
                                 </Border>
-                            </Border>
 
-                            <TextBlock Grid.Column="1" Text="{Binding ClientName}"
+                                <TextBlock Grid.Column="1" Text="{Binding ClientName}"
                                                    VerticalAlignment="Center" HorizontalAlignment="Left"
                                                    Foreground="{StaticResource DataGridForeground}" 
                                                    FontSize="12" Margin="17 0 11 0"/>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding
+                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}"
+                                             Value="True">
+                                    <Setter TargetName="brd" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding
+                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                             Value="True">
+                                    <Setter TargetName="brd" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
 
-                            <TextBlock Grid.Column="4" Text="{Binding ClientName}"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                   Foreground="{StaticResource DataGridForeground}" 
-                                                   FontSize="12" Margin="11 0 41 0"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <GridSplitter Grid.Column="1" ShowsPreview="False" Width="6" 
+                          HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                          Background="Transparent"/>
 
-            <GridSplitter Grid.Column="1" ShowsPreview="False" Width="3" 
-                          HorizontalAlignment="Center" VerticalAlignment="Stretch" />
+            <Border Grid.Column="2" CornerRadius="5" Background="{StaticResource WindowBorderBackground}">
+                <ListBox ItemsSource="{Binding LogList}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                     Style="{StaticResource ListBoxStyle}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid SnapsToDevicePixels="True">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="152"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Column="2" ItemsSource="{Binding LogList}"/>
+                                <Border x:Name="brd" Grid.ColumnSpan="3" 
+                                        Background="{Binding Path=Level, Converter={converters:EventTypeToColorConverter}, ValidatesOnExceptions=True}"/>
+
+                                <TextBlock Text="{Binding Time, StringFormat='{}{0:dd.MM.yyyy HH:mm:ss}'}"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           Foreground="{StaticResource DataGridForeground}" 
+                                           FontSize="12"/>
+
+                                <Border Grid.Column="1" BorderBrush="{StaticResource DataGridHeaderBorder}" BorderThickness="1 0 0 0"/>
+
+                                <TextBlock Grid.Column="2" Text="{Binding Message}" Margin="31 0 0 0"
+                                           VerticalAlignment="Center"
+                                           Foreground="{StaticResource DataGridForeground}" 
+                                           FontSize="12"/>
+
+                                <Border Grid.Column="0" Grid.ColumnSpan="3" 
+                                        BorderBrush="{StaticResource DataGridHeaderBorder}" BorderThickness="0 0 0 1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
         </Grid>
     </Grid>
 </Window>

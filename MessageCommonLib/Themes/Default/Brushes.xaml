@@ -13,13 +13,23 @@
     <SolidColorBrush x:Key="ToolButtonForeground" Color="#236db7"/>
     <SolidColorBrush x:Key="LeftIconToolButtonBorderColor" Color="#446cb3"/>
 
-    <SolidColorBrush x:Key="MainBorderColor" Color="#e5e5e5"/>
+    <SolidColorBrush x:Key="ComboBoxBackground" Color="White"/>
+    <SolidColorBrush x:Key="ComboBoxBorderColor" Color="#dcdcdc"/>
+    <SolidColorBrush x:Key="ComboBoxForeground" Color="#236db7"/>
+    <SolidColorBrush x:Key="ComboBoxSelectItemBackground" Color="#e7f1ff"/>
 
-    <SolidColorBrush x:Key="DataGridForeground" Color="#2c2e35"/>
+    <SolidColorBrush x:Key="MainBorderColor" Color="#e5e5e5"/>
 
     <SolidColorBrush x:Key="TextBoxBackground" Color="#ffffff"/>
     <SolidColorBrush x:Key="TextBoxBorder" Color="#dcdcdc"/>
     <SolidColorBrush x:Key="TextBoxWaterMarkForeground" Color="#dbdbdb"/>
+
+    <SolidColorBrush x:Key="DataGridHeaderBackground" Color="White"/>
+    <SolidColorBrush x:Key="DataGridHeaderBorder" Color="#f2f2f2"/>
+    <SolidColorBrush x:Key="DataGridHeaderForeground" Color="#b3b3b3"/>
+
+    <SolidColorBrush x:Key="DataGridSelectBackground" Color="#e7f1ff"/>
+    <SolidColorBrush x:Key="DataGridForeground" Color="#2c2e35"/>
     <!--<SolidColorBrush x:Key="MainMenuBackground" Color="#446cb3"/>
     <SolidColorBrush x:Key="MainMenuFooterBackground" Color="#3d61a1"/>
 

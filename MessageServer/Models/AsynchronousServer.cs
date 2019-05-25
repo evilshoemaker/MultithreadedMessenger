@@ -10,6 +10,7 @@ using MessageCommonLib.Api;
 using MessageServer.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace MessageServer.Model
 {
@@ -19,10 +20,16 @@ namespace MessageServer.Model
 
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private const int ACTIVE_TIMEOUT_SEC = 60*5;
+
         private IPAddress ipAddress;
         private int port = 8080;
 
         private bool isRunnig = false;
+
+        private TcpListener listener = null;
+
+        private DispatcherTimer activeClientTimer = null;
 
         #endregion
 
@@ -31,6 +38,10 @@ namespace MessageServer.Model
         public AsynchronousServer()
         {
             ClientList = new ObservableCollection<ClientSocket>();
+
+            activeClientTimer = new DispatcherTimer();
+            activeClientTimer.Interval = new TimeSpan(0, 0, 2);
+            activeClientTimer.Tick += ActiveClientTimer_Tick;
         }
 
         #endregion
@@ -114,16 +125,25 @@ namespace MessageServer.Model
 
         public async void Start()
         {
-            TcpListener listener = new TcpListener(this.ipAddress, this.port);
-            listener.Start();
+            try
+            {
+                listener = new TcpListener(ipAddress, port);
+                listener.Start();
+                activeClientTimer.Start();
 
-            logger.Info("Server started");
-            IsRunning = true;
+                logger.Info(String.Format("Server running on {0} port {1}", ipAddress, port));
+                IsRunning = true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return;
+            }
 
             while (true)
             {
                 try
-                { 
+                {
                     TcpClient tcpClient = await listener.AcceptTcpClientAsync();
 
                     Task processTask = Process(tcpClient);
@@ -131,23 +151,45 @@ namespace MessageServer.Model
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex);
+                    //logger.Error(ex.Message);
+                    break;
                 }
             }
+
+            listener = null;
+            logger.Info("Server stopped");
+            IsRunning = false;
         }
 
         public void Stop()
         {
-
+            listener.Stop();
+            activeClientTimer.Stop();
         }
 
         #endregion
 
         #region Private methods
 
+        private void ActiveClientTimer_Tick(object sender, EventArgs e)
+        {
+            IEnumerable<ClientSocket> notActiveClients = ClientList
+                .Where(x => (DateTime.Now - x.LastActiveTime).TotalSeconds > ACTIVE_TIMEOUT_SEC).ToList();
+
+            foreach (ClientSocket client in notActiveClients)
+            {
+                RemoveClient(client.TcpClient);
+            }
+        }
+
         private void RemoveClient(TcpClient tcpClient)
         {
-            ClientList.RemoveAll(x => x.TcpClient == tcpClient);
+            ClientSocket client = ClientList.SingleOrDefault(x => x.TcpClient == tcpClient);
+
+            logger.Info(String.Format("Logout client [{0}]", client.ClientName));
+
+            ClientList.Remove(client);
+            //ClientList.RemoveAll(x => x.TcpClient == tcpClient);
             tcpClient.Close();
 
             SendAllClientList();
@@ -159,14 +201,24 @@ namespace MessageServer.Model
             if (client != null)
             {
                 client.UpdateLastActiveTime();
-            } 
-            else
+            }
+
+            client = ClientList.SingleOrDefault(x => x.TcpClient != tcpClient && x.ClientName == clientName);
+            if (client == null)
             {
                 client = new ClientSocket(tcpClient);
                 client.ClientName = clientName;
 
                 ClientList.Add(client);
                 SendAllClientList();
+
+                logger.Info(String.Format("Login new client {0} [{1}]", 
+                    ((IPEndPoint)tcpClient.Client.RemoteEndPoint).Address.ToString(),
+                    clientName));
+            }
+            else
+            {
+                throw new Exception("Client with this name is already registered");
             }
         }
 
@@ -177,6 +229,10 @@ namespace MessageServer.Model
             {
                 RemoveClient(client.TcpClient);
                 SendAllClientList();
+
+                logger.Info(String.Format("Logout client {0} [{1}]",
+                    ((IPEndPoint)client.TcpClient.Client.RemoteEndPoint).Address.ToString(),
+                    clientName));
             }
         }
 
@@ -204,9 +260,14 @@ namespace MessageServer.Model
 
         private async Task SendMessage(SendMessageRequest request)
         {
+            logger.Info(String.Format("[{0}] => [{1}] {2}",
+                    request.SenderName, request.ClientName, request.Message));
+
             ClientSocket client = ClientList.SingleOrDefault(x => x.ClientName == request.ClientName);
             if (client != null)
             {
+                client.UpdateLastActiveTime();
+
                 try
                 {
                     NetworkStream networkStream = client.TcpClient.GetStream();
@@ -309,13 +370,18 @@ namespace MessageServer.Model
             }
             catch (Exception ex)
             {
-                logger.Error(ex.Message);
+                //logger.Error(ex.Message);
 
                 RemoveClient(tcpClient);
 
                 if (tcpClient.Connected)
                     tcpClient.Close();
             }
+        }
+
+        private string Response(string request)
+        {
+            return "";
         }
 
         #endregion

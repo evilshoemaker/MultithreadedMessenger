@@ -248,6 +248,17 @@ namespace MessageClient.Models
                     {
                         try
                         {
+                            JsonResponse response = JsonResponse.FromJson(request);
+                            if (response.Result == JsonResponse.ResponseResults.Error)
+                            {
+                                ErrorOccurred?.Invoke(response.Description);
+                                break;
+                            }
+                        }
+                        catch { }
+
+                        try
+                        {
                             object obj = JsonRequest.FromJson(request);
                             if (obj.GetType() == typeof(ClientListBroadcast))
                             {
@@ -262,10 +273,7 @@ namespace MessageClient.Models
                                 NewMessage?.Invoke(messageRequest.SenderName, messageRequest.Message);
                             }
                         }
-                        catch
-                        {
-
-                        }
+                        catch {}
                     }
                     else
                     {

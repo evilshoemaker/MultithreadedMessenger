@@ -1,0 +1,193 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MessageCommonLib"
+                    >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Brushes.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+        <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+    </ControlTemplate>
+    
+    <ControlTemplate x:Key="ComboBoxWithIconToggleButton" TargetType="{x:Type ToggleButton}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="24" />
+            </Grid.ColumnDefinitions>
+            <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="5"
+                  Background="Transparent"
+                  BorderBrush="{StaticResource ComboBoxBorderColor}"
+                  BorderThickness="1" />
+            <Path 
+                  x:Name="Arrow"
+                  Grid.Column="1"    
+                  Margin="0 0 13 0"
+                  Fill="#999999"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Height="11"
+                  Width="11"
+                  Stretch="Uniform"
+                  Data="M302.445 80.796l-11.101-11.103c-6.123-6.131-16.074-6.131-22.209 0L153.67 183.707L37.907 67.959     c-6.134-6.13-16.08-6.13-22.209 0L4.597 79.06c-6.129 6.133-6.129 16.067 0 22.201l137.83 137.829     c6.129 6.136 16.067 6.136 22.203 0l137.815-136.096C308.589 96.864 308.589 86.926 302.445 80.796z"
+                />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                <Setter TargetName="Border" Property="CornerRadius" Value="5 5 0 0" />
+            </Trigger>
+            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="ComboBoxWithIconItemStyle" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource ComboBoxForeground}"/>-->
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border Name="Border"
+                              Padding="2"
+                              SnapsToDevicePixels="true">
+                        <ContentPresenter Margin="14 7 14 7"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ComboBoxSelectItemBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource ComboBoxForeground}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ComboBoxWithIconStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource ComboBoxForeground}"/>-->
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ComboBoxWithIconItemStyle}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border CornerRadius="5"
+                              Background="{StaticResource ComboBoxBackground}"/>
+
+                        <Path x:Name="iconPath" Margin="9 0 0 0"
+                                  SnapsToDevicePixels="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  Height="12"
+                                  Width="12"
+                                  Stretch="Uniform"
+                                  Fill="{StaticResource WindowsForeground}" 
+                                  Data="{Binding Path=(local:IconDependencyClass.DataForPath), RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <Label x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                                   Visibility="Collapsed" Foreground="#aeaeae" 
+                                   Padding="30 3 32 3"/>
+
+                        <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxWithIconToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                        </ToggleButton>
+
+
+
+                        <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="30,3,32,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                        <TextBox x:Name="PART_EditableTextBox"
+                            SnapsToDevicePixels="True"
+                            Style="{x:Null}" 
+                            Template="{StaticResource ComboBoxTextBox}" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="30,3,32,3"
+                            Focusable="True" 
+                            Background="#FF3F3F3F"
+                            Foreground="Green"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                        <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="None"
+                            VerticalOffset="0">
+
+                            <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border 
+                                    x:Name="DropDownBorder"
+                                    Background="{StaticResource ComboBoxBackground}"
+
+                                    CornerRadius="0 0 5 5"
+                                    BorderThickness="1 0 1 1"
+                                    BorderBrush="{StaticResource ComboBoxBorderColor}"/>
+
+                                <ScrollViewer Margin="0,6,0,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Text" Value=""/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Visible"/>
+                        </MultiTrigger>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,0,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEditable"  Value="true">
+                            <Setter Property="IsTabStop" Value="false"/>
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
+                    

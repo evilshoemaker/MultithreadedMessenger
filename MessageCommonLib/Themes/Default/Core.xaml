@@ -8,6 +8,7 @@
         <ResourceDictionary Source="Icons.xaml"/>
         <ResourceDictionary Source="ListBoxStyles.xaml"/>
         <ResourceDictionary Source="ScrollBarStyles.xaml"/>
+        <ResourceDictionary Source="ComboBoxStyles.xaml"/>
         <!--<ResourceDictionary Source="TabItemStyles.xaml"/>
         <ResourceDictionary Source="DataGridStyles.xaml"/>
         <ResourceDictionary Source="ComboBoxStyles.xaml"/>

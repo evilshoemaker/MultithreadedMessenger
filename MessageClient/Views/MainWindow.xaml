@@ -93,11 +93,6 @@
                                                    VerticalAlignment="Center" HorizontalAlignment="Left"
                                                    Foreground="{StaticResource DataGridForeground}" 
                                                    FontSize="12" Margin="17 0 11 0"/>
-
-                                <TextBlock Grid.Column="4" Text="{Binding ClientName}"
-                                                   VerticalAlignment="Center" HorizontalAlignment="Left"
-                                                   Foreground="{StaticResource DataGridForeground}" 
-                                                   FontSize="12" Margin="11 0 41 0"/>
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding

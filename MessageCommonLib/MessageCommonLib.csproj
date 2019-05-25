@@ -59,6 +59,7 @@
     <Compile Include="Behaviours\PortOnlyBehaviour.cs" />
     <Compile Include="Converters\BaseValueConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\EventTypeToColorConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\SentByMeToAlignmentConverter.cs" />
     <Compile Include="Converters\SentByMeToBackgroundConverter.cs" />
@@ -72,6 +73,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Default\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Default\ComboBoxStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -36,9 +36,9 @@ namespace MessageCommonLib.Api
             return JsonConvert.SerializeObject(this);
         }
 
-        public static object FromJson(string jsonString)
+        public static JsonResponse FromJson(string jsonString)
         {
-            return JsonConvert.DeserializeObject(jsonString, typeof(JsonResponse));
+            return (JsonResponse)JsonConvert.DeserializeObject(jsonString, typeof(JsonResponse));
         }
     }
 }

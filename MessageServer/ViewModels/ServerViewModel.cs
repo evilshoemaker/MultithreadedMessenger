@@ -23,7 +23,7 @@ namespace MessageServer.ViewModels
 
             Server = new AsynchronousServer();
 
-            LogList = new ObservableCollection<string>();
+            LogList = new ObservableCollection<LogItemViewModel>();
             NetworkInterfaces = new ObservableCollection<IPAddress>(AsynchronousServer.AvailableNetworkInterfaces());
 
             App.LogMessage += App_LogMessage;
@@ -38,7 +38,7 @@ namespace MessageServer.ViewModels
 
         #region Properties
 
-        public ObservableCollection<string> LogList { get; private set; }
+        public ObservableCollection<LogItemViewModel> LogList { get; private set; }
 
         public ObservableCollection<IPAddress> NetworkInterfaces { get; private set; }
 
@@ -60,7 +60,7 @@ namespace MessageServer.ViewModels
 
         private void App_LogMessage(string level, string message)
         {
-            LogList.Add(String.Format("{0} {1}", level, message));
+            LogList.Add(new LogItemViewModel(DateTime.Now, level, message));
         }
 
         #endregion

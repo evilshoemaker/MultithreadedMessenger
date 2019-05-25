@@ -67,11 +67,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ClientSocket.cs" />
+    <Compile Include="ViewModels\LogItemViewModel.cs" />
     <Compile Include="ViewModels\ServerViewModel.cs" />
-    <Page Include="Views\ConnectSettingsWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,9 +76,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Views\ConnectSettingsWindow.xaml.cs">
-      <DependentUpon>ConnectSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AsynchronousServer.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
