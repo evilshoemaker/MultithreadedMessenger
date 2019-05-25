@@ -1,5 +1,6 @@
 ﻿using MessageCommonLib.Api;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -12,13 +13,13 @@ namespace MessageClient.Models
     {
         #region Private properties
 
-        private string hostAddress;
-        private int port;
-        private string clientName;
+        private string hostAddress = "localhost";
+        private int port = 8080;
+        private string clientName = "test 1";
 
         private bool connected = false;
 
-        private TcpClient tcpClient;
+        private TcpClient tcpClient = null;
 
         #endregion
 
@@ -26,8 +27,15 @@ namespace MessageClient.Models
 
         public Client()
         {
-            tcpClient = new TcpClient();
         }
+
+        #endregion
+
+        #region Events
+
+        public delegate void UpdateClientListDelegate(List<string> list);
+
+        public event UpdateClientListDelegate UpdateClientList;
 
         #endregion
 
@@ -113,6 +121,8 @@ namespace MessageClient.Models
                 throw new Exception("Unable to find an IPv4 address for server");
             }
 
+            tcpClient = new TcpClient();
+
             await tcpClient.ConnectAsync(ipAddress, port);
 
             Connected = true;
@@ -152,7 +162,8 @@ namespace MessageClient.Models
 
                 tcpClient.Close();
             }
-                
+
+            tcpClient = null;
             Connected = false;
         }
 
@@ -199,10 +210,20 @@ namespace MessageClient.Models
                     string request = await reader.ReadLineAsync();
                     if (request != null)
                     {
-                        /*Console.WriteLine("Received service request: " + request);
-                        string response = Response(request);
-                        Console.WriteLine("Computed response is: " + response + "\n");
-                        await writer.WriteLineAsync(response);*/
+                        try
+                        {
+                            object obj = JsonRequest.FromJson(request);
+                            if (obj is ClientListBroadcast)
+                            {
+                                ClientListBroadcast broadcast = (ClientListBroadcast)obj;
+
+                                UpdateClientList?.Invoke(broadcast.ClientList);
+                            }
+                        }
+                        catch
+                        {
+
+                        }
                     }
                     else
                     {
@@ -211,6 +232,7 @@ namespace MessageClient.Models
                 }
 
                 tcpClient.Close();
+                Connected = false;
             }
             catch (Exception ex)
             {
@@ -219,8 +241,9 @@ namespace MessageClient.Models
                 if (tcpClient.Connected)
                 {
                     tcpClient.Close();
-                    Connected = false;
                 }
+
+                Connected = false;
             }
         }
 

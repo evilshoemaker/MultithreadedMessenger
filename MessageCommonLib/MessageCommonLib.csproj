@@ -49,6 +49,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ClientListBroadcast.cs" />
     <Compile Include="Api\JsonResponse.cs" />
     <Compile Include="Api\LoginRequest.cs" />
     <Compile Include="Api\JsonRequest.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Api\SendMessageRequest.cs" />
     <Compile Include="Converters\BaseValueConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\SentByMeToAlignmentConverter.cs" />
+    <Compile Include="Converters\SentByMeToBackgroundConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Delegates.cs" />
     <Compile Include="ObservableCollectionExtensions.cs" />
@@ -73,10 +76,19 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\Roboto-Bold.ttf" />
+    <Resource Include="Fonts\Roboto-Medium.ttf" />
+    <Resource Include="Fonts\Roboto-Regular.ttf" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\airplane.png" />
     <Content Include="Images\person-icon.png" />
+    <Page Include="Themes\Default\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -39,6 +39,8 @@ namespace MessageCommonLib.Api
                     return JsonConvert.DeserializeObject(jsonString, typeof(LoginRequest));
                 case "logout":
                     return JsonConvert.DeserializeObject(jsonString, typeof(LogoutRequest));
+                case "clientListBroadcast":
+                    return JsonConvert.DeserializeObject(jsonString, typeof(ClientListBroadcast));
                 default:
                     return null;
             }

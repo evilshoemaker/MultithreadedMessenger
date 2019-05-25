@@ -1,5 +1,4 @@
-﻿using MessageClient.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MessageClient
+namespace MessageClient.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для MessageListItemControl.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MessageListItemControl : UserControl
     {
-        public MainWindow()
+        public MessageListItemControl()
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace MessageServer.Model
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         private IPAddress ipAddress;
-        private int port;
+        private int port = 8080;
 
         private bool isRunnig = false;
 
@@ -127,7 +127,7 @@ namespace MessageServer.Model
                     TcpClient tcpClient = await listener.AcceptTcpClientAsync();
 
                     Task processTask = Process(tcpClient);
-                    await processTask;
+                    //await processTask;
                 }
                 catch (Exception ex)
                 {
@@ -145,15 +145,12 @@ namespace MessageServer.Model
 
         #region Private methods
 
-        /*private void AddNewClient(TcpClient tcpClient)
-        {
-            ClientList.Add(new ClientSocket(tcpClient));
-        }*/
-
         private void RemoveClient(TcpClient tcpClient)
         {
             ClientList.RemoveAll(x => x.TcpClient == tcpClient);
             tcpClient.Close();
+
+            SendAllClientList();
         }
 
         private void LoginClient(TcpClient tcpClient, string clientName)
@@ -165,7 +162,11 @@ namespace MessageServer.Model
             } 
             else
             {
-                ClientList.Add(new ClientSocket(tcpClient));
+                client = new ClientSocket(tcpClient);
+                client.ClientName = clientName;
+
+                ClientList.Add(client);
+                SendAllClientList();
             }
         }
 
@@ -175,6 +176,29 @@ namespace MessageServer.Model
             if (client != null)
             {
                 RemoveClient(client.TcpClient);
+                SendAllClientList();
+            }
+        }
+
+        private void SendAllClientList()
+        {
+            ClientListBroadcast broadcast = new ClientListBroadcast();
+            broadcast.ClientList = ClientList.Select(x => x.ClientName).ToList();
+
+            foreach(ClientSocket client in ClientList)
+            {
+                try
+                {
+                    NetworkStream networkStream = client.TcpClient.GetStream();
+                    StreamWriter writer = new StreamWriter(networkStream);
+                    writer.AutoFlush = true;
+
+                    writer.WriteLineAsync(broadcast.ToJson());
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                }
             }
         }
 

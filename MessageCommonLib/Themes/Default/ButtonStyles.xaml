@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MessageCommonLib.Themes.Default">
+
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Brushes.xaml"/>
+    </ResourceDictionary.MergedDictionaries>-->
+
+    <!--<Style x:Key="TrasparentButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource IconButtonBackground}" />
+        <Setter Property="Foreground" Value="#cecece" />
+        <Setter Property="FontFamily" Value="/InstaSoft;component/Themes/Default/Fonts/#Roboto"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <ContentPresenter Grid.Column="1" x:Name="MyContentPresenter" Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                              />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Path=(global:IconDependencyClass.ColorOne), RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{Binding Path=(global:IconDependencyClass.ColorTwo), RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+    
+</ResourceDictionary>

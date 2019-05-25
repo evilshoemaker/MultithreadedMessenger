@@ -55,6 +55,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ChatMessageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageListItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageTextEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,8 +75,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\ChatMessageControl.xaml.cs">
+      <DependentUpon>ChatMessageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MessageListItemControl.xaml.cs">
+      <DependentUpon>MessageListItemControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MessageTextEditor.xaml.cs">
+      <DependentUpon>MessageTextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Client.cs" />
-    <Compile Include="ViewModels\ClientViewModel.cs" />
+    <Compile Include="ViewModels\ClientListItemViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\MessageListItemViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
