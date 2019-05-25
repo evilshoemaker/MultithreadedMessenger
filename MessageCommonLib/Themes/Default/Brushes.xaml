@@ -5,6 +5,8 @@
     <SolidColorBrush x:Key="WindowBackground" Color="#2F3A4F"/>
     <SolidColorBrush x:Key="WindowToolBarBackground" Color="#D8DAE6"/>
     <SolidColorBrush x:Key="WindowFooterBackground" Color="#007ACC"/>
+
+    <SolidColorBrush x:Key="DataGridForeground" Color="#2c2e35"/>
     <!--<SolidColorBrush x:Key="MainMenuBackground" Color="#446cb3"/>
     <SolidColorBrush x:Key="MainMenuFooterBackground" Color="#3d61a1"/>
 

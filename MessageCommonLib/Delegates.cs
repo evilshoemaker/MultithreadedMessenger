@@ -7,4 +7,5 @@ using System.Threading.Tasks;
 namespace MessageCommonLib
 {
     public delegate void DString(string val);
+    public delegate void LogMessageDelegate(string level, string message);
 }
