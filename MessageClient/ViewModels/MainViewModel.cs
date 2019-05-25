@@ -25,10 +25,12 @@ namespace MessageClient.ViewModels
         {
             ConnectCommand = new DelegateCommand(ConnectToHost);
             DisconnectCommand = new DelegateCommand(Disconnect);
+            SendMessageCommand = new DelegateCommand(SendMessage);
 
             TcpClient = new Client();
             TcpClient.PropertyChanged += Client_PropertyChanged;
             TcpClient.UpdateClientList += TcpClient_UpdateClientList;
+            TcpClient.NewMessage += TcpClient_NewMessage;
 
             ClientList = new ObservableCollection<ClientListItemViewModel>();
         }
@@ -39,6 +41,7 @@ namespace MessageClient.ViewModels
 
         public ICommand ConnectCommand { get; private set; }
         public ICommand DisconnectCommand { get; private set; }
+        public ICommand SendMessageCommand { get; private set; }
 
         #endregion
 
@@ -74,7 +77,7 @@ namespace MessageClient.ViewModels
             {
                 if (TcpClient.Connected)
                 {
-                    TcpClient.Authorization();
+                    TcpClient.Login();
                 }
             }
         }
@@ -96,6 +99,21 @@ namespace MessageClient.ViewModels
             }
         }
 
+        private void TcpClient_NewMessage(string clientName, string message)
+        {
+            ClientListItemViewModel client = ClientList.SingleOrDefault(x => x.ClientName == clientName);
+
+            if (client == null)
+                return;
+
+            client.Messages.Add(new MessageListItemViewModel
+            {
+                Message = message,
+                SentByMe = false,
+                MessageSentTime = DateTime.Now.ToString("dd MMM HH:mm")
+            });
+        }
+
         private void ConnectToHost(object obj)
         {
             TcpClient.Connect();
@@ -104,6 +122,28 @@ namespace MessageClient.ViewModels
         private void Disconnect(object obj)
         {
             TcpClient.Disconnect();
+        }
+
+        private void SendMessage(object obj)
+        {
+            if (CurrentClient == null 
+                || String.IsNullOrEmpty(CurrentClient.ClientName)
+                || String.IsNullOrEmpty(CurrentClient.CurrentMessage)
+                || !TcpClient.Connected)
+            {
+                return;
+            }
+
+            TcpClient.SendMessage(CurrentClient.ClientName, CurrentClient.CurrentMessage);
+
+            CurrentClient.Messages.Add(new MessageListItemViewModel
+            {
+                Message = CurrentClient.CurrentMessage,
+                SentByMe = true,
+                MessageSentTime = DateTime.Now.ToString("dd MMM HH:mm")
+            });
+
+            CurrentClient.CurrentMessage = "";
         }
 
         #endregion

@@ -34,8 +34,10 @@ namespace MessageClient.Models
         #region Events
 
         public delegate void UpdateClientListDelegate(List<string> list);
+        public delegate void NewMessageDelegate(string clientName, string message);
 
         public event UpdateClientListDelegate UpdateClientList;
+        public event NewMessageDelegate NewMessage;
 
         #endregion
 
@@ -167,7 +169,7 @@ namespace MessageClient.Models
             Connected = false;
         }
 
-        public async void Authorization()
+        public async void Login()
         {
             if (!tcpClient.Connected)
             {
@@ -185,6 +187,33 @@ namespace MessageClient.Models
                 LoginRequest authorizationRequest = new LoginRequest(clientName);
 
                 await writer.WriteLineAsync(authorizationRequest.ToJson());
+            }
+            catch
+            {
+                Connected = false;
+            }
+        }
+
+        public async void SendMessage(string clentName, string message)
+        {
+            if (!tcpClient.Connected)
+            {
+                Connected = false;
+                return;
+            }
+
+            try
+            {
+                NetworkStream networkStream = tcpClient.GetStream();
+                StreamWriter writer = new StreamWriter(networkStream);
+
+                writer.AutoFlush = true;
+
+                SendMessageRequest messageRequest = new SendMessageRequest();
+                messageRequest.ClientName = clentName;
+                messageRequest.Message = message;
+
+                await writer.WriteLineAsync(messageRequest.ToJson());
             }
             catch
             {
@@ -218,6 +247,12 @@ namespace MessageClient.Models
                                 ClientListBroadcast broadcast = (ClientListBroadcast)obj;
 
                                 UpdateClientList?.Invoke(broadcast.ClientList);
+                            }
+                            else if (obj is SendMessageRequest)
+                            {
+                                SendMessageRequest messageRequest = (SendMessageRequest)obj;
+
+                                NewMessage?.Invoke(messageRequest.ClientName, messageRequest.Message);
                             }
                         }
                         catch

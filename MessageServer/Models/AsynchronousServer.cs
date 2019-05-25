@@ -204,7 +204,7 @@ namespace MessageServer.Model
 
         private async Task SendMessage(SendMessageRequest request)
         {
-            ClientSocket client = ClientList.SingleOrDefault(x => x.ClientName != request.ClientName);
+            ClientSocket client = ClientList.SingleOrDefault(x => x.ClientName == request.ClientName);
             if (client != null)
             {
                 try
@@ -263,11 +263,11 @@ namespace MessageServer.Model
                         }
                         else if (obj is LogoutRequest)
                         {
-                            LoginRequest loginRequest = (LoginRequest)obj;
+                            LogoutRequest logoutRequest = (LogoutRequest)obj;
 
-                            LogoutClient(loginRequest.ClientName);
+                            LogoutClient(logoutRequest.ClientName);
 
-                            JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Success);
+                            JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Success, "", logoutRequest.RequestId);
                             await writer.WriteLineAsync(response.ToJson());
 
                             break;
@@ -280,12 +280,12 @@ namespace MessageServer.Model
                             {
                                 await SendMessage(messageRequest);
 
-                                JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Success);
+                                JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Success, "", messageRequest.RequestId);
                                 await writer.WriteLineAsync(response.ToJson());
                             }
                             catch
                             {
-                                JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Error);
+                                JsonResponse response = new JsonResponse(JsonResponse.ResponseResults.Error, "", messageRequest.RequestId);
                                 await writer.WriteLineAsync(response.ToJson());
                             }
                         }

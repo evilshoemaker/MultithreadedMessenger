@@ -82,8 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\airplane.png" />
-    <Content Include="Images\person-icon.png" />
+    <Resource Include="Images\airplane.png" />
+    <Resource Include="Images\person-icon.png" />
     <Page Include="Themes\Default\ButtonStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
