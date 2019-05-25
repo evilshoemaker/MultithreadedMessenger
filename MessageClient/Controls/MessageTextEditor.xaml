@@ -10,16 +10,15 @@
     
     <Border Background="White" BorderBrush="{StaticResource MainBorderColor}" BorderThickness="1" CornerRadius="5" SnapsToDevicePixels="True">
         <Grid Margin="12">
-            <Label Grid.Column="1" x:Name="waterMarkLabel" Content="Type message" VerticalAlignment="Top" Margin="0 2 0 0"
-                   Visibility="Visible" Foreground="{StaticResource TextBoxWaterMarkForeground}" 
-                   FontSize="12" 
-                   Padding="3 0 0 0"/>
-
             <Grid x:Name="rotGrigRichTextBox">
                 <TextBox TextWrapping="Wrap" AcceptsReturn="True"
                          HorizontalScrollBarVisibility="Disabled"
                          VerticalScrollBarVisibility="Auto" 
-                         Text="{Binding CurrentClient.CurrentMessage}">
+                         Text="{Binding CurrentClient.CurrentMessage}"
+                         Style="{StaticResource TransparentTextBoxStyle}"
+                         Tag="Type a message"
+                         VerticalContentAlignment="Top"
+                         Margin="0 0 24 0">
 
                 </TextBox>
             </Grid>

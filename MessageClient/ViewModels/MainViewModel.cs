@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace MessageClient.ViewModels
@@ -31,6 +32,7 @@ namespace MessageClient.ViewModels
             TcpClient.PropertyChanged += Client_PropertyChanged;
             TcpClient.UpdateClientList += TcpClient_UpdateClientList;
             TcpClient.NewMessage += TcpClient_NewMessage;
+            TcpClient.ErrorOccurred += TcpClient_ErrorOccurred;
 
             ClientList = new ObservableCollection<ClientListItemViewModel>();
         }
@@ -112,6 +114,11 @@ namespace MessageClient.ViewModels
                 SentByMe = false,
                 MessageSentTime = DateTime.Now.ToString("dd MMM HH:mm")
             });
+        }
+
+        private void TcpClient_ErrorOccurred(string errorMessage)
+        {
+            MessageBox.Show(errorMessage, "Errror");
         }
 
         private void ConnectToHost(object obj)

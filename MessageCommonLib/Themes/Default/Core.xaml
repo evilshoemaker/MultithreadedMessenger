@@ -4,8 +4,11 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Brushes.xaml"/>
         <ResourceDictionary Source="ButtonStyles.xaml"/>
-        <!--<ResourceDictionary Source="Icons.xaml"/>
-        <ResourceDictionary Source="TabItemStyles.xaml"/>
+        <ResourceDictionary Source="TextBoxStyles.xaml"/>
+        <ResourceDictionary Source="Icons.xaml"/>
+        <ResourceDictionary Source="ListBoxStyles.xaml"/>
+        <ResourceDictionary Source="ScrollBarStyles.xaml"/>
+        <!--<ResourceDictionary Source="TabItemStyles.xaml"/>
         <ResourceDictionary Source="DataGridStyles.xaml"/>
         <ResourceDictionary Source="ComboBoxStyles.xaml"/>
         <ResourceDictionary Source="ProgressBarStyle.xaml"/>

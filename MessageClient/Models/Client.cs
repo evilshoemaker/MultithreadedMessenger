@@ -13,6 +13,8 @@ namespace MessageClient.Models
     {
         #region Private properties
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private string hostAddress = "localhost";
         private int port = 8080;
         private string clientName = "test 1";
@@ -35,9 +37,11 @@ namespace MessageClient.Models
 
         public delegate void UpdateClientListDelegate(List<string> list);
         public delegate void NewMessageDelegate(string clientName, string message);
+        public delegate void ErrorOccurredDelegate(string errorMessage);
 
         public event UpdateClientListDelegate UpdateClientList;
         public event NewMessageDelegate NewMessage;
+        public event ErrorOccurredDelegate ErrorOccurred;
 
         #endregion
 
@@ -125,21 +129,23 @@ namespace MessageClient.Models
 
             tcpClient = new TcpClient();
 
-            await tcpClient.ConnectAsync(ipAddress, port);
-
-            Connected = true;
-
             try
             {
+                await tcpClient.ConnectAsync(ipAddress, port);
+
+                Connected = true;
+
                 Task processTask = Process(tcpClient);
                 await processTask;
-
-                //logger.Info("Server started");
-                //IsRunning = true;
+            }
+            catch (SocketException ex)
+            {
+                ErrorOccurred?.Invoke(ex.Message);
+                logger.Error(ex);
             }
             catch (Exception ex)
             {
-                //logger.Error(ex);
+                logger.Error(ex);
             }
         }
 
@@ -271,7 +277,7 @@ namespace MessageClient.Models
             }
             catch (Exception ex)
             {
-                //logger.Error(ex);
+                logger.Error(ex);
 
                 if (tcpClient.Connected)
                 {

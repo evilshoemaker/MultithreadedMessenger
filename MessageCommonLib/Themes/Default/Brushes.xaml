@@ -2,9 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:MessageCommonLib.Themes.Default">
 
-    <SolidColorBrush x:Key="WindowBackground" Color="#2F3A4F"/>
+    <SolidColorBrush x:Key="WindowBackground" Color="#fafafa"/>
     <SolidColorBrush x:Key="WindowToolBarBackground" Color="#D8DAE6"/>
     <SolidColorBrush x:Key="WindowFooterBackground" Color="#007ACC"/>
+    <SolidColorBrush x:Key="WindowBorderBackground" Color="White"/>
+    <SolidColorBrush x:Key="WindowsForeground" Color="#446cb3"/>
+
+    <SolidColorBrush x:Key="ToolButtonBackground" Color="White"/>
+    <SolidColorBrush x:Key="ToolButtonBorderColor" Color="#f2f2f2"/>
+    <SolidColorBrush x:Key="ToolButtonForeground" Color="#236db7"/>
+    <SolidColorBrush x:Key="LeftIconToolButtonBorderColor" Color="#446cb3"/>
 
     <SolidColorBrush x:Key="MainBorderColor" Color="#e5e5e5"/>
 

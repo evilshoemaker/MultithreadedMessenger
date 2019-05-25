@@ -306,8 +306,6 @@ namespace MessageServer.Model
                         break;
                     }
                 }
-
-                //tcpClient.Close();
             }
             catch (Exception ex)
             {
@@ -318,33 +316,6 @@ namespace MessageServer.Model
                 if (tcpClient.Connected)
                     tcpClient.Close();
             }
-        }
-
-        private string Response(string request)
-        {
-            // assumes request has form like method=average&data=1.1 2.2 3.3&eor
-            // eor stands for end-of-request
-            // dummy delay bssed on the first numeric value
-            /*string[] pairs = request.Split('&');
-            string methodName = pairs[0].Split('=')[1];
-            string valueString = pairs[1].Split('=')[1];
-
-            string[] values = valueString.Split(' ');
-            double[] vals = new double[values.Length];
-            for (int i = 0; i < values.Length; ++i)
-                vals[i] = double.Parse(values[i]);
-
-            string response = "";
-            if (methodName == "average") response += Average(vals);
-            else if (methodName == "minimum") response += Minimum(vals);
-            else response += "BAD methodName: " + methodName;
-
-            int delay = ((int)vals[0]) * 1000; // dummy delay
-            System.Threading.Thread.Sleep(delay);
-
-            return response;*/
-
-            return "";
         }
 
         #endregion

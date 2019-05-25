@@ -44,4 +44,114 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ToolButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource ToolButtonForeground}"/>
+        <Setter Property="FontFamily" Value="/MessageCommonLib;component/Fonts/#Roboto"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Height" Value="32" />
+        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="25"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border x:Name="Border" 
+                                Grid.ColumnSpan="4"
+                                Background="{StaticResource ToolButtonBackground}" 
+                                CornerRadius="5"
+                                BorderThickness="1" 
+                                BorderBrush="{StaticResource ToolButtonBorderColor}"/>
+
+                        <ContentPresenter Grid.Column="1" Margin="0 3 7 3" x:Name="content_button" 
+                                          HorizontalAlignment="Center" 
+                                          RecognizesAccessKey="True" 
+                                          SnapsToDevicePixels="true" 
+                                          VerticalAlignment="Center"/>
+
+                        <Path x:Name="iconPath" Grid.Column="2"
+                                  SnapsToDevicePixels="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Height="12"
+                                  Width="12"
+                                  Stretch="Uniform"
+                                  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                  Data="{Binding Path=(local:IconDependencyClass.DataForPath), RelativeSource={RelativeSource TemplatedParent}}" />
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{StaticResource WindowBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="Border" Value="0.7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ToolButtonWithoutTextStyle" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource ToolButtonForeground}"/>
+        <Setter Property="FontFamily" Value="/InstaSoft;component/Themes/Default/Fonts/#Roboto"/>
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Height" Value="32" />
+        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="11.5"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="11.5"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border x:Name="Border" 
+                                Grid.ColumnSpan="4"
+                                Background="{StaticResource ToolButtonBackground}" 
+                                CornerRadius="5"
+                                BorderThickness="1" 
+                                BorderBrush="{StaticResource ToolButtonBorderColor}"/>
+
+                        <Path x:Name="iconPath" Grid.Column="2"
+                                  SnapsToDevicePixels="True" 
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Center"
+                                  Height="12"
+                                  Width="12"
+                                  Stretch="Uniform"
+                                  Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                  Data="{Binding Path=(local:IconDependencyClass.DataForPath), RelativeSource={RelativeSource TemplatedParent}}" />
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="Border" Value="{StaticResource WindowBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <!--<Setter Property="BorderBrush" TargetName="Border" Value="#3a6d99"/>-->
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="Border" Value="0.7"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

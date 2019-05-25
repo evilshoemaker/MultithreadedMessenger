@@ -4,16 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MessageClient.Controls"
+             xmlns:commonLib="clr-namespace:MessageCommonLib;assembly=MessageCommonLib"
              mc:Ignorable="d" 
              x:Name="Root"
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
+    <UserControl.Style>
+        <Style TargetType="{x:Type local:ChatMessageControl}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+
     <Grid SnapsToDevicePixels="True" VerticalAlignment="Bottom">
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="58"/>
         </Grid.RowDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      commonLib:ScrollViewerExtensions.AlwaysScrollToEnd="True">
             <ItemsControl ItemsSource="{Binding CurrentClient.Messages}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -23,6 +35,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <local:MessageTextEditor Grid.Row="1" DataContext="{Binding Path=DataContext, ElementName=Root}"/>
+        <local:MessageTextEditor Grid.Row="1" Margin="0 6 0 0"
+                                 DataContext="{Binding Path=DataContext, ElementName=Root}"/>
     </Grid>
 </UserControl>
