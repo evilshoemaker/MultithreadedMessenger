@@ -15,5 +15,6 @@ namespace MessageCommonLib.Api
 
         public string ClientName { get; set; }
         public string Message { get; set; }
+        public string SenderName { get; set; }
     }
 }

@@ -243,7 +243,7 @@ namespace MessageServer.Model
                     if (request != null)
                     {
                         object obj = JsonRequest.FromJson(request);
-                        if (obj is LoginRequest)
+                        if (obj.GetType() == typeof(LoginRequest))
                         {
                             LoginRequest loginRequest = (LoginRequest)obj;
 
@@ -261,7 +261,7 @@ namespace MessageServer.Model
                             }
                             
                         }
-                        else if (obj is LogoutRequest)
+                        else if (obj.GetType() == typeof(LogoutRequest))
                         {
                             LogoutRequest logoutRequest = (LogoutRequest)obj;
 
@@ -272,7 +272,7 @@ namespace MessageServer.Model
 
                             break;
                         }
-                        else if (obj is SendMessageRequest)
+                        else if (obj.GetType() == typeof(SendMessageRequest))
                         {
                             SendMessageRequest messageRequest = (SendMessageRequest)obj;
 

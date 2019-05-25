@@ -218,6 +218,7 @@ namespace MessageClient.Models
                 SendMessageRequest messageRequest = new SendMessageRequest();
                 messageRequest.ClientName = clentName;
                 messageRequest.Message = message;
+                messageRequest.SenderName = ClientName;
 
                 await writer.WriteLineAsync(messageRequest.ToJson());
             }
@@ -248,17 +249,17 @@ namespace MessageClient.Models
                         try
                         {
                             object obj = JsonRequest.FromJson(request);
-                            if (obj is ClientListBroadcast)
+                            if (obj.GetType() == typeof(ClientListBroadcast))
                             {
                                 ClientListBroadcast broadcast = (ClientListBroadcast)obj;
 
                                 UpdateClientList?.Invoke(broadcast.ClientList);
                             }
-                            else if (obj is SendMessageRequest)
+                            else if (obj.GetType() == typeof(SendMessageRequest))
                             {
                                 SendMessageRequest messageRequest = (SendMessageRequest)obj;
 
-                                NewMessage?.Invoke(messageRequest.ClientName, messageRequest.Message);
+                                NewMessage?.Invoke(messageRequest.SenderName, messageRequest.Message);
                             }
                         }
                         catch

@@ -101,9 +101,9 @@ namespace MessageClient.ViewModels
             }
         }
 
-        private void TcpClient_NewMessage(string clientName, string message)
+        private void TcpClient_NewMessage(string senderName, string message)
         {
-            ClientListItemViewModel client = ClientList.SingleOrDefault(x => x.ClientName == clientName);
+            ClientListItemViewModel client = ClientList.SingleOrDefault(x => x.ClientName == senderName);
 
             if (client == null)
                 return;
@@ -146,6 +146,7 @@ namespace MessageClient.ViewModels
             CurrentClient.Messages.Add(new MessageListItemViewModel
             {
                 Message = CurrentClient.CurrentMessage,
+                SenderName = TcpClient.ClientName,
                 SentByMe = true,
                 MessageSentTime = DateTime.Now.ToString("dd MMM HH:mm")
             });
